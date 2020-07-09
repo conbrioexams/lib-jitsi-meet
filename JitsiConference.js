@@ -2750,7 +2750,7 @@ JitsiConference.prototype._addRemoteP2PTracks = function() {
 JitsiConference.prototype._addRemoteTracks = function(logName, remoteTracks) {
     for (const track of remoteTracks) {
         logger.info(`Adding remote ${logName} track: ${track}`);
-        this.rtc.eventEmitter.emit(RTCEvents.REMOTE_TRACK_ADDED, track);
+        this.onRemoteTrackAdded(track);
     }
 };
 
@@ -2937,7 +2937,7 @@ JitsiConference.prototype._removeRemoteTracks = function(
         remoteTracks) {
     for (const track of remoteTracks) {
         logger.info(`Removing remote ${sessionNickname} track: ${track}`);
-        this.rtc.eventEmitter.emit(RTCEvents.REMOTE_TRACK_REMOVED, track);
+        this.onRemoteTrackRemoved(track);
     }
 };
 
