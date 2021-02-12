@@ -1651,6 +1651,7 @@ export default class ChatRoom extends Listenable {
      */
     onMute(iq) {
         const from = iq.getAttribute('from');
+        logger.info('--onMute--in');
 
         if (from !== this.focusMucJid) {
             logger.warn('Ignored mute from non focus peer');
@@ -1658,9 +1659,10 @@ export default class ChatRoom extends Listenable {
             return;
         }
         const mute = $(iq).find('mute');
+        logger.info('-----onMute,mute.text()=', mute.text(), ',actor=', mute.attr('actor'));
 
-        if (mute.length && mute.text() === 'true') {
-            this.eventEmitter.emit(XMPPEvents.AUDIO_MUTED_BY_FOCUS, mute.attr('actor'));
+        if (mute.length) {
+            this.eventEmitter.emit(XMPPEvents.AUDIO_MUTED_BY_FOCUS, mute.attr('actor'), mute.text());
         } else {
             // XXX Why do we support anything but muting? Why do we encode the
             // value in the text of the element? Why do we use a separate XML
