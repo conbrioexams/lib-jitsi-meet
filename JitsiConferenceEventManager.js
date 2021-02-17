@@ -92,7 +92,6 @@ JitsiConferenceEventManager.prototype.setupChatRoomListeners = function() {
             // TODO: Add a way to differentiate between commands which caused
             // us to mute and those that did not change our state (i.e. we were
             // already muted).
-            logger.info('---eventmanager, acotr=', actor, ',mute=', mute);
             mute = mute === 'false' ? false : true;
             Statistics.sendAnalytics(createRemotelyMutedEvent());
 

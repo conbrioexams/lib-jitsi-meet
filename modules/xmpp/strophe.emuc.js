@@ -42,8 +42,6 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
             'message', null, null);
         this.connection.addHandler(this.onMute.bind(this),
             'http://jitsi.org/jitmeet/audio', 'iq', 'set', null, null);
-        this.connection.addHandler(this.onUnmute.bind(this),
-            'http://jitsi.org/jitmeet/audio', 'iq', 'set', null, null);
     }
 
     /**
@@ -165,7 +163,6 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
      * @param iq
      */
     onMute(iq) {
-        logger.info('---strophe.emuc.js--onMute--in');
         const from = iq.getAttribute('from');
         const room = this.rooms[Strophe.getBareJidFromJid(from)];
 
@@ -183,7 +180,6 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
      * @param iq
      */
     onUnmute(iq) {
-        logger.info('---strophe.emuc.js--onUnmute--in');
         const from = iq.getAttribute('from');
         const room = this.rooms[Strophe.getBareJidFromJid(from)];
 
