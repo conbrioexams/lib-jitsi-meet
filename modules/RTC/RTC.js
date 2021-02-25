@@ -644,6 +644,7 @@ export default class RTC extends Listenable {
      * @return {Array<JitsiRemoteTrack>}
      */
     getRemoteTracks(mediaType) {
+        logger.info('----getRemoteTracks,mediaType=', mediaType);
         let remoteTracks = [];
 
         for (const tpc of this.peerConnections.values()) {
@@ -654,6 +655,7 @@ export default class RTC extends Listenable {
             }
         }
 
+        logger.info('----remoteTracks=', remoteTracks);
         return remoteTracks;
     }
 
@@ -673,6 +675,25 @@ export default class RTC extends Listenable {
         // We return a Promise from all Promises so we can wait for their
         // execution.
         return Promise.all(mutePromises);
+    }
+
+    /**
+     * Set volume for all remote audio streams attached to the conference.
+     * @param value The mute value.
+     * @returns {Promise}
+     */
+    setAudioVolume(value) {
+        // const mutePromises = [];
+
+        this.getRemoteTracks(MediaType.AUDIO).forEach(audioTrack => {
+            // this is a Promise
+            // mutePromises.push(value ? audioTrack.mute() : audioTrack.unmute());
+            audioTrack.setAudioVolume(value);
+        });
+
+        // We return a Promise from all Promises so we can wait for their
+        // execution.
+        return true; // Promise.all(mutePromises);
     }
 
     /**

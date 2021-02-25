@@ -1473,6 +1473,19 @@ JitsiConference.prototype.muteParticipant = function(id, val=true) {
     this.room.muteParticipant(participant.getJid(), val);
 };
 
+/**
+ * RemoteSets a participant.
+ * @param {string} id The id of the participant to remoteset.
+ */
+JitsiConference.prototype.remoteSetParticipant = function(id, paramJson) {
+    const participant = this.getParticipantById(id);
+
+    if (!participant) {
+        return;
+    }
+    this.room.remoteSetParticipant(participant.getJid(), paramJson);
+};
+
 /* eslint-disable max-params */
 
 /**

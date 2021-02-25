@@ -164,6 +164,24 @@ export default class JitsiRemoteTrack extends JitsiTrack {
     }
 
     /**
+     * Sets current muted status and fires an events for the change.
+     * @param value the muted status.
+     */
+    setAudioVolume(value) {
+        if (this.muted === true) {
+            return;
+        }
+
+        // we can have a fake video stream
+        if (this.stream) {
+            this.stream.volume = value;
+        }
+
+        // this.muted = value;
+        // this.emit(JitsiTrackEvents.TRACK_MUTE_CHANGED, this);
+    }
+
+    /**
      * Returns the participant id which owns the track.
      *
      * @returns {string} the id of the participants. It corresponds to the

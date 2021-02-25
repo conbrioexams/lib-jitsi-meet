@@ -1628,7 +1628,6 @@ export default class ChatRoom extends Listenable {
      * @param mute
      */
     muteParticipant(jid, mute) {
-        logger.info('set mute', mute);
         const iqToFocus = $iq(
             { to: this.focusMucJid,
                 type: 'set' })
@@ -1667,6 +1666,56 @@ export default class ChatRoom extends Listenable {
             // namespace?
             logger.warn('Ignoring a mute request which does not explicitly '
                 + 'specify a positive mute command.');
+        }
+    }
+
+    /**
+     * Remoteset remote participant.
+     * @param jid of the participant
+     * @param command
+     */
+    remoteSetParticipant(jid, commands) {
+        logger.info('set volume', mute);
+        const iqToFocus = $iq(
+            { to: this.focusMucJid,
+                type: 'set' })
+            .c('remoteset', {
+                xmlns: 'http://jitsi.org/jitmeet/remoteset',
+                jid
+            })
+            .t(JSON.stringify(
+                command
+            ))
+            .up();
+
+        this.connection.sendIQ(
+            iqToFocus,
+            result => logger.log('remote set ', result),
+            error => logger.log('remote set error', error));
+    }
+
+    /**
+     * TODO: Document
+     * @param iq
+     */
+    onRemoteSet(iq) {
+        const from = iq.getAttribute('from');
+
+        if (from !== this.focusMucJid) {
+            logger.warn('Ignored mute from non focus peer');
+
+            return;
+        }
+        const remoteSet = $(iq).find('remoteset');
+
+        if (paramJson.length) {
+            this.eventEmitter.emit(XMPPEvents.REMOTE_SET_BY_FOCUS, remoteSet.attr('actor'), remoteSet.text());
+        } else {
+            // XXX Why do we support anything but muting? Why do we encode the
+            // value in the text of the element? Why do we use a separate XML
+            // namespace?
+            logger.warn('Ignoring a volume request which does not explicitly '
+                + 'specify a positive remoteSet command.');
         }
     }
 

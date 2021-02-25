@@ -42,6 +42,8 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
             'message', null, null);
         this.connection.addHandler(this.onMute.bind(this),
             'http://jitsi.org/jitmeet/audio', 'iq', 'set', null, null);
+        this.connection.addHandler(this.onRemoteSet.bind(this),
+            'http://jitsi.org/jitmeet/remoteset', 'iq', 'set', null, null);
     }
 
     /**
@@ -179,7 +181,7 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
      * TODO: Document
      * @param iq
      */
-    onUnmute(iq) {
+    onRemoteSet(iq) {
         const from = iq.getAttribute('from');
         const room = this.rooms[Strophe.getBareJidFromJid(from)];
 
@@ -188,7 +190,7 @@ export default class MucConnectionPlugin extends ConnectionPluginListenable {
             return true;
         }
 
-        room.onMute(iq);
+        room.onRemoteSet(iq);
 
         return true;
     }

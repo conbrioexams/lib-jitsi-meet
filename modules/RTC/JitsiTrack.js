@@ -159,6 +159,7 @@ export default class JitsiTrack extends EventEmitter {
         }
 
         this.stream = stream;
+        logger.info('_setStream,stream=', stream);
 
         // TODO Practically, that's like the opposite of _unregisterHandlers
         // i.e. may be abstracted into a function/method called
