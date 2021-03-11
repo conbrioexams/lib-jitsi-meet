@@ -72,6 +72,7 @@ describe('ChatRoom', () => {
                     .c('id').t('id-text').up()
                     .c('name').t('name-text').up()
                     .c('avatar').t('avatar-text').up()
+                    .c('pinMe').t('pinme-text').up()
                 .up()
                 .c('group').t('group-text').up()
             .up();
@@ -116,6 +117,15 @@ describe('ChatRoom', () => {
                     expect(Object.keys(avatar.attributes).length).toEqual(0);
                     expect(avatar.children.length).toEqual(0);
                     expect(avatar.value).toEqual('avatar-text');
+                }
+                {
+                    const pinMe = user.children
+                        .find(n => n.tagName === 'pinMe');
+
+                    expect(pinMe).toBeTruthy();
+                    expect(Object.keys(pinMe.attributes).length).toEqual(0);
+                    expect(pinMe.children.length).toEqual(0);
+                    expect(pinMe.value).toEqual('pinme-text');
                 }
                 expect(user.value).toBeFalsy();
             }
@@ -219,6 +229,7 @@ describe('ChatRoom', () => {
                             '<id>id-text</id>' +
                             '<name>name-text</name>' +
                             '<avatar>avatar-text</avatar>' +
+                            '<pinMe>pinme-text</pinMe>' +
                         '</user>' +
                         '<group>group-text</group>' +
                     '</identity>' +
@@ -229,7 +240,8 @@ describe('ChatRoom', () => {
                 user: {
                     id: 'id-text',
                     name: 'name-text',
-                    avatar: 'avatar-text'
+                    avatar: 'avatar-text',
+                    pinMe: 'pinme-text'
                 },
                 group: 'group-text'
             };
@@ -288,4 +300,3 @@ describe('ChatRoom', () => {
 
     });
 });
-
